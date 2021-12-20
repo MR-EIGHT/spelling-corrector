@@ -10,4 +10,4 @@ def he(request):
     return render(request,'index.html',{'data': data})
 
 def list_of_possible_spellings(text):
-    
+    return 0

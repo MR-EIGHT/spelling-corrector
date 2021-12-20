@@ -1,18 +1,50 @@
 <html>
     <h1>Hello</h1>
-    <style>
-        input {
-            direction: rtl;
-        }
-      </style>
+   
 
 <body>
 
-    <form method="POST"> 
+
+
+
+    <textarea name='text' rows='4' cols="50" form="ini" dir="rtl"> Enter your text
+    </textarea>
+    <form method="POST" id='ini'> 
         {% csrf_token %}
-        <input type="text" name="text"/>
-        <input type="submit" value="correct"/>
+
+
+
+        <input type="submit"  value="correct"/>
     </form>
+        <style>
+            textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #7ee275;
+  resize: none;
+}
+        input[type=button], input[type=submit], input[type=reset] {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-decoration: none;
+            margin: 4px 2px;
+            cursor: pointer;
+            text-align: center;
+            left:50%;
+            margin:5 auto;
+            display:block;
+          }
+          </style>
+
+    
+
+
 </body>
 {%if data%}
 <h1> text: </h1> <h2>{{data}}</h2>
