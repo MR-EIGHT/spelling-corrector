@@ -1,5 +1,11 @@
 <html>
     <h1>Hello</h1>
+    <style>
+        input {
+            direction: rtl;
+        }
+      </style>
+
 <body>
 
     <form method="POST"> 
@@ -8,7 +14,9 @@
         <input type="submit" value="correct"/>
     </form>
 </body>
-
-
+{%if data%}
+<h1> text: </h1> <h2>{{data}}</h2>
+{% else %}
+{% endif %}
 </html>
 
