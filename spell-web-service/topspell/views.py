@@ -5,4 +5,6 @@ from django.http import HttpRequest
 
 
 def he(request):
+    data = request.POST.get('text')
+    print(data)
     return render(request,'index.html')
