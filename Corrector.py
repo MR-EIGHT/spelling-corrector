@@ -1,4 +1,6 @@
+import random
 import re
+import time
 from collections import Counter
 import pickle
 
@@ -18,12 +20,12 @@ class Corrector:
     def correction(self, word, context):
         "Most probable spelling correction for word."
         spell_context = Counter(self.__candidates__(word, context))
-        real_candidates = spell_context.most_common()
+        real_candidates = spell_context.most_common(5)
         #     N=sum(spell_context.values())
         #     for i in range(0,len(spell_context)):
         #         spell_context[word] = spell_context[word] / N
         #     print(spell_context)
-        return real_candidates[0]
+        return real_candidates[0][0]
 
     def corrector(self, word):
         def candidates():
@@ -43,7 +45,6 @@ class Corrector:
                 self.__known__([word]) | self.__known__(self.__edits1__(word)) | self.__known__(
             self.__edits2__(word)) | {word})
         context_candidates = self.__context_sensitive_candidates__(context)
-        current_context = Counter([w for w in context_candidates if w in norvig_candidates])
         return [w for w in context_candidates if w in norvig_candidates]
 
     def __known__(self, words):
@@ -64,11 +65,20 @@ class Corrector:
         "All edits that are two edits away from `word`."
         return (e2 for e1 in self.__edits1__(word) for e2 in self.__edits1__(e1))
 
-    def sen_corrector(self, query):
+    def sensitive_corrector(self, query):
         words = query.split()
+        rate = 0
+        for i in range(0, len(words)):
+            rate += self.WORDS[words[i]]
+        if rate < 100:
+            index = random.randint(0, len(words) - 1)
+            words[index] = self.corrector(words[index])
+            query = ' '.join(words)
+
         for i in range(0, len(words)):
             #         words[i] = correction(words[i],' '.join(words[:i] + words[i+1:]))
             words[i] = self.correction(words[i], query)
+            query = ' '.join(words)
         return words
 
     def __context_sensitive_candidates__(self, words):
@@ -80,8 +90,22 @@ class Corrector:
         return possibles
 
 
+start = time.perf_counter()
 Cor = Corrector()
-print(Cor.sen_corrector('خیابان اپام'))
-print(Cor.sen_corrector('کاهن مبعد'))
 
+print(Cor.sensitive_corrector('خیابان اپام'))
+print(Cor.sensitive_corrector('کاهن مبعد'))
+print(Cor.sensitive_corrector(' السامی انلقاب'))
+print(Cor.sensitive_corrector('دوزت رشد'))
+print(Cor.sensitive_corrector('نزریه نسبیت'))
+print(Cor.sensitive_corrector(' السامی انلقاب'))
+print(Cor.sensitive_corrector('پدر عجب شیمی'))
+print(Cor.sensitive_corrector('انقلاب اسمالی ایراد'))
 print(Cor.corrector('انلقاب'))
+print(Cor.corrector('فصادها'))
+print(Cor.corrector('انبسات'))
+print(Cor.corrector('انلغاد'))
+
+end = time.perf_counter()
+
+print(f'Elapsed time whole process: {end - start}')
