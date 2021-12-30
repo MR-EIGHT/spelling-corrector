@@ -1,13 +1,14 @@
 <html>
-    <h1>Hello</h1>
-   
+    <h1 class="main-header" style="margin-top:50px;color:rgb(37, 21, 182); text-align: center;background-color: #e7e5e5;" >
+       Context-Sensitive Spell Corrector
+      </h1>
 
 <body>
 
 
 
 
-    <textarea name='text' rows='4' cols="50" form="ini" dir="rtl"> Enter your text
+    <textarea name='text' rows='4' cols="50" form="ini" dir="rtl" placeholder="متن خود را وارد کنید"> 
     </textarea>
     <form method="POST" id='ini'> 
         {% csrf_token %}
@@ -47,7 +48,7 @@
 
 </body>
 {%if data%}
-<h1> text: </h1> <h2>{{data}}</h2>
+<h1 dir="rtl" style="margin-top:50px;color:rgb(182, 21, 147);"> متن اصلاح شده: </h1> <h2>{{data}}</h2>
 {% else %}
 {% endif %}
 </html>
