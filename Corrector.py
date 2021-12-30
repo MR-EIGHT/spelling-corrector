@@ -1,5 +1,4 @@
 import random
-import re
 import time
 from collections import Counter
 import pickle
@@ -7,18 +6,15 @@ import pickle
 
 class Corrector:
 
-    def __words__(self, text):
-        return re.findall(r'\w+', text.lower())
-
     def __init__(self):
         f = open("not_unique_final_cleaned_vocab.pkl", 'rb')
         dicti = pickle.load(f)
         f.close()
         self.dicti = list(filter(None, dicti))
-        self.WORDS = Counter(self.__words__(open('big.txt', 'r', encoding='utf-8').read()))
+        self.WORDS = Counter(self.dicti)
 
     def correction(self, word, context):
-        "Most probable spelling correction for word."
+        """Most probable spelling correction for word."""
         spell_context = Counter(self.__candidates__(word, context))
         real_candidates = spell_context.most_common(5)
         #     N=sum(spell_context.values())
@@ -29,30 +25,30 @@ class Corrector:
 
     def corrector(self, word):
         def candidates():
-            "Generate possible spelling corrections for word."
+            """Generate possible spelling corrections for word."""
             return self.__known__([word]) or self.__known__(self.__edits1__(word)) or self.__known__(
                 self.__edits2__(word)) or [word]
 
-        def P(cw, N=sum(self.WORDS.values())):
-            "Probability of `word`."
+        def p(cw, N=sum(self.WORDS.values())):
+            """Probability of `word`."""
             return self.WORDS[cw] / N
 
-        return max(candidates(), key=P)
+        return max(candidates(), key=p)
 
     def __candidates__(self, word, context):
-        "Generate possible spelling corrections for word."
+        """Generate possible spelling corrections for word."""
         norvig_candidates = (
                 self.__known__([word]) | self.__known__(self.__edits1__(word)) | self.__known__(
-            self.__edits2__(word)) | {word})
+                    self.__edits2__(word)) | {word})
         context_candidates = self.__context_sensitive_candidates__(context)
         return [w for w in context_candidates if w in norvig_candidates]
 
     def __known__(self, words):
-        "The subset of `words` that appear in the dictionary of WORDS."
+        """The subset of `words` that appear in the dictionary of WORDS."""
         return set(w for w in words if w in self.WORDS)
 
     def __edits1__(self, word):
-        "All edits that are one edit away from `word`."
+        """All edits that are one edit away from `word`."""
         letters = 'آابپتثجچحخدذرزژسشضطظعغفقکگلمنوهی'
         splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
         deletes = [R + L[1:] for R, L in splits if L]
@@ -62,7 +58,7 @@ class Corrector:
         return set(deletes + transposes + replaces + inserts)
 
     def __edits2__(self, word):
-        "All edits that are two edits away from `word`."
+        """All edits that are two edits away from `word`."""
         return (e2 for e1 in self.__edits1__(word) for e2 in self.__edits1__(e1))
 
     def sensitive_corrector(self, query):
@@ -86,7 +82,7 @@ class Corrector:
         for w in words.split():
             indices = [i for i, x in enumerate(self.dicti) if x == w]
             for i in indices:
-                possibles.extend(self.dicti[i - 1:i + 2])
+                possibles.extend(self.dicti[i - 2:i + 3])
         return possibles
 
 
@@ -101,11 +97,12 @@ print(Cor.sensitive_corrector('نزریه نسبیت'))
 print(Cor.sensitive_corrector(' السامی انلقاب'))
 print(Cor.sensitive_corrector('پدر عجب شیمی'))
 print(Cor.sensitive_corrector('انقلاب اسمالی ایراد'))
+print(Cor.sensitive_corrector('دین مسیهیت'))
 print(Cor.corrector('انلقاب'))
 print(Cor.corrector('فصادها'))
 print(Cor.corrector('انبسات'))
 print(Cor.corrector('انلغاد'))
-print(Cor.corrector('اسمالی'))
+print(Cor.corrector('اسمال'))
 print(Cor.corrector('انلقاب'))
 print(Cor.corrector('ایراد'))
 
