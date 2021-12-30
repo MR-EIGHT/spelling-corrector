@@ -1,5 +1,5 @@
 <html>
-    <h1 class="main-header" style="margin-top:50px;color:rgb(37, 21, 182); text-align: center;background-color: #e7e5e5;" >
+    <h1 class="main-header" style="margin-top:50px;color:rgb(37, 21, 182); text-align: center;background-color: #e7e5e5; font-size: 50px;" >
        Context-Sensitive Spell Corrector
       </h1>
 
@@ -8,8 +8,7 @@
 
 
 
-    <textarea name='text' rows='4' cols="50" form="ini" dir="rtl" placeholder="متن خود را وارد کنید"> 
-    </textarea>
+    <textarea name='text' rows='4' cols="10" form="ini" dir="rtl" placeholder="متن خود را وارد کنید"></textarea>
     <form method="POST" id='ini'> 
         {% csrf_token %}
 
@@ -48,7 +47,7 @@
 
 </body>
 {%if data%}
-<h1 dir="rtl" style="margin-top:50px;color:rgb(182, 21, 147);"> متن اصلاح شده: </h1> <h2>{{data}}</h2>
+<h1 dir="ltr" style="text-align: center; margin-top:50px;color:rgb(182, 21, 147); background-color: #e7e5e5;"> Corrected Text </h1> <h2 dir="rtl" style="margin-top:50px; color:rgb(18, 15, 204); background-color: #e0faaf;">{{data}}</h2>
 {% else %}
 {% endif %}
 </html>
