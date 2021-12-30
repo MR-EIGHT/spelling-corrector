@@ -86,7 +86,7 @@ class Corrector:
         for w in words.split():
             indices = [i for i, x in enumerate(self.dicti) if x == w]
             for i in indices:
-                possibles.extend(self.dicti[i:i + 2] + self.dicti[i - 1:i])
+                possibles.extend(self.dicti[i - 1:i + 2])
         return possibles
 
 
@@ -105,6 +105,9 @@ print(Cor.corrector('انلقاب'))
 print(Cor.corrector('فصادها'))
 print(Cor.corrector('انبسات'))
 print(Cor.corrector('انلغاد'))
+print(Cor.corrector('اسمالی'))
+print(Cor.corrector('انلقاب'))
+print(Cor.corrector('ایراد'))
 
 end = time.perf_counter()
 
