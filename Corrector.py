@@ -98,6 +98,8 @@ print(Cor.sensitive_corrector(' السامی انلقاب'))
 print(Cor.sensitive_corrector('پدر عجب شیمی'))
 print(Cor.sensitive_corrector('انقلاب اسمالی ایراد'))
 print(Cor.sensitive_corrector('دین مسیهیت'))
+
+print(Cor.corrector('دوزت'))
 print(Cor.corrector('انلقاب'))
 print(Cor.corrector('فصادها'))
 print(Cor.corrector('انبسات'))
