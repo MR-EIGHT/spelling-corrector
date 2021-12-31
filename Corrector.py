@@ -144,7 +144,7 @@ if __name__ == '__main__':
     print(Cor.corrector('فصادها'))
     print(Cor.corrector('انبسات'))
     print(Cor.corrector('انلغاد'))
-    print(Cor.corrector('اسمال'))
+    print(Cor.corrector('اسمالی'))
     print(Cor.corrector('انلقاب'))
     print(Cor.corrector('ایراد'))
     print(Cor.corrector('اگتشاف'))
