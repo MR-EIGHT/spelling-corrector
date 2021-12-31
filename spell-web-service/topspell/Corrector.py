@@ -8,9 +8,8 @@ class Corrector:
     #
     def __init__(self):
         f = open("topspell/data.pkl", 'rb')
-        dicti = pickle.load(f)
+        self.dicti = pickle.load(f)
         f.close()
-        self.dicti = list(filter(None, dicti))
         self.WORDS = Counter(self.dicti)
 
     def correction(self, word, context):
