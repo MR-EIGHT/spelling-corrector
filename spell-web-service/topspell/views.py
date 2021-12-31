@@ -8,12 +8,14 @@ from topspell.Corrector import Corrector
 
 def he(request):
     data = request.POST.get('text')
-    print(data)
-    ans=list_of_possible_spellings(text=data)
-    if len(data.split())>1:
-        return render(request,'index.html',{'data': data if data is None else ans[1],'answer':' '.join(ans[0])})
+    if data != None:
+        ans=list_of_possible_spellings(text=data)
+        if len(data.split())>1:
+            return render(request,'index.html',{'data': data if data is None else ans[1],'answer':' '.join(ans[0])})
+        else:
+            return render(request,'index.html',{'data': data if data is None else ans[1],'answer':ans[0]})
     else:
-        return render(request,'index.html',{'data': data if data is None else ans[1],'answer':ans[0]})
+        return render(request,'index.html',{'data': data})
 
 def list_of_possible_spellings(text):
     Cor = Corrector()
