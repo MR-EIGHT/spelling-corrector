@@ -91,31 +91,3 @@ class Corrector:
             for i in indices:
                 possibles.extend(self.dicti[i - 2:i + 3])
         return possibles
-
-
-if __name__ == '__main__':
-    start = time.perf_counter()
-    Cor = Corrector()
-
-    print(Cor.sensitive_corrector('خیابان اپام'))
-    print(Cor.sensitive_corrector('کاهن مبعد'))
-    print(Cor.sensitive_corrector(' السامی انلقاب'))
-    print(Cor.sensitive_corrector('دوزت رشد'))
-    print(Cor.sensitive_corrector('نزریه نسبیت'))
-    print(Cor.sensitive_corrector(' السامی انلقاب'))
-    print(Cor.sensitive_corrector('پدر عجب شیمی'))
-    print(Cor.sensitive_corrector('انقلاب اسمالی ایراد'))
-    print(Cor.sensitive_corrector('دین مسیهیت'))
-
-    print(Cor.corrector('دوزت'))
-    print(Cor.corrector('انلقاب'))
-    print(Cor.corrector('فصادها'))
-    print(Cor.corrector('انبسات'))
-    print(Cor.corrector('انلغاد'))
-    print(Cor.corrector('اسمال'))
-    print(Cor.corrector('انلقاب'))
-    print(Cor.corrector('ایراد'))
-
-    end = time.perf_counter()
-
-    print(f'Elapsed time whole process: {end - start}')
