@@ -39,7 +39,7 @@ class Corrector:
         """Generate possible spelling corrections for word."""
         norvig_candidates = (
                 self.__known__([word]) | self.__known__(self.__edits1__(word)) | self.__known__(
-                    self.__edits2__(word)) | {word})
+            self.__edits2__(word)) | {word})
         context_candidates = self.__context_sensitive_candidates__(context)
         return [w for w in context_candidates if w in norvig_candidates]
 
@@ -85,10 +85,25 @@ class Corrector:
                 possibles.extend(self.dicti[i - 2:i + 3])
         return possibles
 
+    def wspace_correction(self, query):
+        words = query.split()
+        i = 0
+        while i < len(words) - 1:
+            if self.WORDS[words[i] + words[i + 1]] > self.WORDS[words[i]] * 3:
+                words[i] = words[i] + words[i + 1]
+                del words[i + 1]
+            else:
+                i += 2
+                continue
+            i += 1
+        return ' '.join(words)
+
 
 if __name__ == '__main__':
     start = time.perf_counter()
     Cor = Corrector()
+
+    print(Cor.wspace_correction('رن گین کما ن'))
 
     print(Cor.sensitive_corrector('خیابان اپام'))
     print(Cor.sensitive_corrector('کاهن مبعد'))
