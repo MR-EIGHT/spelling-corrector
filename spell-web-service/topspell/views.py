@@ -19,7 +19,6 @@ def he(request):
 
 def list_of_possible_spellings(text):
     Cor = Corrector()
-    print(len(text.split()))
     if len(text.split()) > 1: 
         return Cor.sensitive_corrector(text)
     else:
