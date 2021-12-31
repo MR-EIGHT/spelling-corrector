@@ -47,7 +47,17 @@
 
 </body>
 {%if data%}
-<h1 dir="ltr" style="text-align: center; margin-top:50px;color:rgb(182, 21, 147); background-color: #e7e5e5;"> Corrected Text </h1> <h2 dir="rtl" style="margin-top:50px; color:rgb(18, 15, 204); background-color: #e0faaf;">{{data}}</h2>
+<h1 dir="ltr" style="text-align: center; margin-top:50px;color:rgb(182, 21, 147); background-color: #e7e5e5;"> Corrected Text </h1> 
+
+<h2 dir="rtl" style="margin-top:50px; color:rgb(18, 15, 204); background-color: #5feee7;">{{answer}}</h2>
+
+{% for key,value in data.items %}
+
+<h2 dir="rtl" style="margin-top:50px; color:rgb(18, 15, 204); background-color: #e0faaf;">{{key}} : {{value}}</h2>
+
+
+{% endfor %}
+
 {% else %}
 {% endif %}
 </html>
