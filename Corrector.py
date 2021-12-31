@@ -5,6 +5,9 @@ import pickle
 
 
 class Corrector:
+    """
+    This class is used to correct queries by using Peter Norvig's implementation of edit-distance algorithm in its core.
+    """
 
     def __init__(self):
         """
