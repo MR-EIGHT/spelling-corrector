@@ -7,10 +7,9 @@ import pickle
 class Corrector:
 
     def __init__(self):
-        f = open("not_unique_final_cleaned_vocab.pkl", 'rb')
-        dicti = pickle.load(f)
+        f = open("data+.pkl", 'rb')
+        self.dicti = pickle.load(f)
         f.close()
-        self.dicti = list(filter(None, dicti))
         self.WORDS = Counter(self.dicti)
 
     def correction(self, word, context):
@@ -123,6 +122,7 @@ if __name__ == '__main__':
     print(Cor.corrector('اسمال'))
     print(Cor.corrector('انلقاب'))
     print(Cor.corrector('ایراد'))
+    print(Cor.corrector('اگتشاف'))
 
     end = time.perf_counter()
 
