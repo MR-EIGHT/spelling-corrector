@@ -7,22 +7,28 @@ import pickle
 class Corrector:
 
     def __init__(self):
+        """
+              initializes the class.
+              loads the data.
+              counts the frequencies of the words.
+        """
         f = open("data+.pkl", 'rb')
         self.dicti = pickle.load(f)
         f.close()
         self.WORDS = Counter(self.dicti)
 
     def correction(self, word, context):
-        """Most probable spelling correction for word."""
+        """Most probable spelling correction for word by considering the context."""
         spell_context = Counter(self.__candidates__(word, context))
         real_candidates = spell_context.most_common(5)
-        #     N=sum(spell_context.values())
-        #     for i in range(0,len(spell_context)):
-        #         spell_context[word] = spell_context[word] / N
-        #     print(spell_context)
+
         return real_candidates[0][0]
 
     def corrector(self, word):
+        """
+        Isolated correction function.
+        """
+
         def candidates():
             """Generate possible spelling corrections for word."""
             return self.__known__([word]) or self.__known__(self.__edits1__(word)) or self.__known__(
@@ -61,8 +67,14 @@ class Corrector:
         return (e2 for e1 in self.__edits1__(word) for e2 in self.__edits1__(e1))
 
     def sensitive_corrector(self, query):
+        """
+              main function that iterates over the query words and corrects them.
+        """
         words = query.split()
         rate = 0
+        # checks the frequency of the whole phrase in case all the entered words are wrong...
+        # in that case the program corrects one word randomly and isolated.
+        # then tries to generate the context and edit by using the context.
         for i in range(0, len(words)):
             rate += self.WORDS[words[i]]
         if rate < 100:
@@ -71,12 +83,14 @@ class Corrector:
             query = ' '.join(words)
 
         for i in range(0, len(words)):
-            #         words[i] = correction(words[i],' '.join(words[:i] + words[i+1:]))
             words[i] = self.correction(words[i], query)
             query = ' '.join(words)
         return words
 
     def __context_sensitive_candidates__(self, words):
+        """
+        gets the words as query and generates a context by the local words of the words.
+        """
         possibles = []
         for w in words.split():
             indices = [i for i, x in enumerate(self.dicti) if x == w]
@@ -85,6 +99,10 @@ class Corrector:
         return possibles
 
     def wspace_correction(self, query):
+        """
+        corrects whitespaces if the frequency of the joined words is more than the multiplication of the current word
+        by 3.
+        """
         words = query.split()
         i = 0
         while i < len(words) - 1:
@@ -99,9 +117,13 @@ class Corrector:
 
 
 if __name__ == '__main__':
+    """
+    tests written to test the corrector's performance and the time it takes to operate.
+    """
     start = time.perf_counter()
     Cor = Corrector()
 
+    print(Cor.wspace_correction('خمی نی اما م خو    بی'))
     print(Cor.wspace_correction('رن گین کما ن'))
 
     print(Cor.sensitive_corrector('خیابان اپام'))
