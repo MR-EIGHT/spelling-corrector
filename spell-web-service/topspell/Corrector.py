@@ -2,10 +2,10 @@ import random
 import time
 from collections import Counter
 import pickle
-import os
+
 
 class Corrector:
-
+    #
     def __init__(self):
         f = open("topspell/data.pkl", 'rb')
         dicti = pickle.load(f)
@@ -21,9 +21,11 @@ class Corrector:
         #     for i in range(0,len(spell_context)):
         #         spell_context[word] = spell_context[word] / N
         #     print(spell_context)
-        return real_candidates[0][0]
+        return [f'{i[0]}' for i in real_candidates]
 
     def corrector(self, word):
+        hist = dict()
+
         def candidates():
             """Generate possible spelling corrections for word."""
             return self.__known__([word]) or self.__known__(self.__edits1__(word)) or self.__known__(
@@ -33,13 +35,14 @@ class Corrector:
             """Probability of `word`."""
             return self.WORDS[cw] / N
 
-        return max(candidates(), key=p)
+        hist[word] = sorted(candidates(), key=p, reverse=True)
+        return hist[word][0], hist
 
     def __candidates__(self, word, context):
         """Generate possible spelling corrections for word."""
         norvig_candidates = (
                 self.__known__([word]) | self.__known__(self.__edits1__(word)) | self.__known__(
-                    self.__edits2__(word)) | {word})
+            self.__edits2__(word)) | {word})
         context_candidates = self.__context_sensitive_candidates__(context)
         return [w for w in context_candidates if w in norvig_candidates]
 
@@ -62,20 +65,24 @@ class Corrector:
         return (e2 for e1 in self.__edits1__(word) for e2 in self.__edits1__(e1))
 
     def sensitive_corrector(self, query):
+        hist = dict()
         words = query.split()
         rate = 0
         for i in range(0, len(words)):
             rate += self.WORDS[words[i]]
         if rate < 100:
             index = random.randint(0, len(words) - 1)
-            words[index] = self.corrector(words[index])
+            cands = self.corrector(words[index])
+            words[index] = cands[0]
             query = ' '.join(words)
-
+        cands = []
         for i in range(0, len(words)):
             #         words[i] = correction(words[i],' '.join(words[:i] + words[i+1:]))
-            words[i] = self.correction(words[i], query)
+            cands = self.correction(words[i], query)
+            hist[words[i]] = cands
+            words[i] = cands[0]
             query = ' '.join(words)
-        return words
+        return words, hist
 
     def __context_sensitive_candidates__(self, words):
         possibles = []
