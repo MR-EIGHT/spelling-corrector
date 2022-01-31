@@ -126,17 +126,14 @@ if __name__ == '__main__':
     start = time.perf_counter()
     Cor = Corrector()
 
-    print(Cor.wspace_correction('خمی نی اما م خو    بی'))
     print(Cor.wspace_correction('رن گین کما ن'))
 
     print(Cor.sensitive_corrector('خیابان اپام'))
     print(Cor.sensitive_corrector('کاهن مبعد'))
-    print(Cor.sensitive_corrector(' السامی انلقاب'))
     print(Cor.sensitive_corrector('دوزت رشد'))
     print(Cor.sensitive_corrector('نزریه نسبیت'))
     print(Cor.sensitive_corrector(' السامی انلقاب'))
     print(Cor.sensitive_corrector('پدر عجب شیمی'))
-    print(Cor.sensitive_corrector('انقلاب اسمالی ایراد'))
     print(Cor.sensitive_corrector('دین مسیهیت'))
 
     print(Cor.corrector('دوزت'))
@@ -144,8 +141,6 @@ if __name__ == '__main__':
     print(Cor.corrector('فصادها'))
     print(Cor.corrector('انبسات'))
     print(Cor.corrector('انلغاد'))
-    print(Cor.corrector('اسمالی'))
-    print(Cor.corrector('انلقاب'))
     print(Cor.corrector('ایراد'))
     print(Cor.corrector('اگتشاف'))
 

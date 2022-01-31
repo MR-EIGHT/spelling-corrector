@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from topspell.Corrector import Corrector
 # Create your views here.
 
+Cor = Corrector()
 
 def he(request):
     data = request.POST.get('text')
@@ -18,7 +19,7 @@ def he(request):
         return render(request,'index.html',{'data': data})
 
 def list_of_possible_spellings(text):
-    Cor = Corrector()
+    
     if len(text.split()) > 1: 
         return Cor.sensitive_corrector(text)
     else:
